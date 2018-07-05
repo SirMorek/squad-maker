@@ -17,3 +17,7 @@ class Team(object):
     @property
     def size(self):
         return len(self.players)
+
+    def __repr__(self):
+        return "Team {name}: {players}".format(
+            name=self.name, players=self.players)

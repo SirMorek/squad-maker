@@ -32,3 +32,12 @@ class HockeyPlayer(object):
         return cls(player_json['_id'], player_json['firstName'],
                    player_json['lastName'], skills['shooting'],
                    skills['skating'], skills['checking'])
+
+    def __repr__(self):
+        return ("{first} {last}; shooting {shooting} skating {skating} "
+                "checking {checking}".format(
+                    first=self.first_name,
+                    last=self.last_name,
+                    shooting=self.shooting,
+                    skating=self.skating,
+                    checking=self.checking))
