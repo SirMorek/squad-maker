@@ -33,6 +33,29 @@ class HockeyPlayer(object):
                    player_json['lastName'], skills['shooting'],
                    skills['skating'], skills['checking'])
 
+    def to_json(self):
+        _json = {
+            '_id': self._id,
+            'firstName': self.first_name,
+            'lastName': self.last_name
+        }
+        _json.update(self.skills_to_json())
+        return _json
+
+    def skills_to_json(self):
+        return {
+            'skills': [{
+                'type': 'shooting',
+                'rating': self.shooting
+            }, {
+                'type': 'skating',
+                'rating': self.skating
+            }, {
+                'type': 'checking',
+                'rating': self.checking
+            }]
+        }
+
     def __repr__(self):
         return ("{first} {last}; shooting {shooting} skating {skating} "
                 "checking {checking}".format(

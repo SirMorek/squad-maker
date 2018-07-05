@@ -77,6 +77,13 @@ def test_hockey_player_from_json():
     assert player.skill_total == 171
 
 
+def test_hockey_player_to_from_json():
+    player = HockeyPlayer.from_json(SAMPLE_PLAYER)
+    dump = player.to_json()
+    player2 = HockeyPlayer.from_json(dump)
+    assert player == player2
+
+
 def test_hockey_player_sort():
     player_1 = HockeyPlayer.from_json(SAMPLE_PLAYER)
     player_2 = HockeyPlayer.from_json(SAMPLE_PLAYER_2)
