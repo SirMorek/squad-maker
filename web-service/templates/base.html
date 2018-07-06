@@ -1,3 +1,22 @@
+{% macro player_table(players) -%}
+<table>
+  <tr>
+    <th>Player Name</th>
+    <th>Skating Rating</th>
+    <th>Shooting Rating</th>
+    <th>Checking Rating</th>
+  </tr>
+  {% for player in players %}
+  <tr>
+    <td>{{ " ".join([player.first_name, player.last_name]) }}</td>
+    <td>{{ player.skating }}</td>
+    <td>{{ player.shooting }}</td>
+    <td>{{ player.checking }}</td>
+  </tr>
+  {% endfor %}
+</table>
+{%- endmacro %}
+
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -5,16 +24,35 @@
     <link href="{{ url_for('static', filename='style.css') }}" rel="stylesheet">
   </head>
   <body>
+    <style>
+      table, th, td {
+      border: 1px solid black;
+      border-collapse: collapse;
+      text-align: center;
+      }
+      tr:nth-child(even) {
+      background-color: #eee;
+      }
+      tr:nth-child(odd) {
+      background-color: #fff;
+      }
+    </style>
+
     {# print a table of the free players #}
     <p>Reserve List:</p>
-    {{ players }}
+    {{ player_table(players) }}
     <hr>
+
     {# if any, print teams #}
     {% if teams %}
     <p>Teams:</p>
-    {{ teams }}
+    {% for team in teams %}
+    {{ player_table(team.players) }}
+    <br>
+    {% endfor %}
     <hr>
     {% endif %}
+
     {# button to reset service state #}
     {# button to generate teams #}
   </body>
