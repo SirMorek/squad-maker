@@ -38,6 +38,12 @@
       }
     </style>
 
+    <div style="text-align:center">
+      <a href="{{ url_for('run_matchmaking') }}">Generate Teams</a>
+      --
+      <a href="{{ url_for('reset_matchmaking') }}">Reset Teams</a>
+    </div>
+
     {# print a table of the free players #}
     <p>Reserve List:</p>
     {{ player_table(players) }}

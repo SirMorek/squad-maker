@@ -1,7 +1,7 @@
 import json
-from os import path
+from os import path, remove
 
-from flask import Flask, render_template
+from flask import Flask, render_template, redirect, url_for
 
 from matchmaker.main import matchmake
 from matchmaker.team import Team
@@ -13,22 +13,6 @@ PERSISTENCE_FILE = path.join(path.dirname(__file__), 'persistence.json')
 
 
 @APP.route("/")
-def root():
-    with open(PLAYER_FILE) as player_file:
-        player_json = json.loads(player_file.read())
-        teams, players = matchmake(player_json['players'], 6)
-
-    with open(PERSISTENCE_FILE, "w") as outfile:
-        outfile.write(
-            json.dumps({
-                "teams": Team.bulk_to_json(teams),
-                "players": [player.to_json() for player in players]
-            }))
-
-    return render_template('base.html', teams=teams, players=players)
-
-
-@APP.route("/teams", methods=["GET", "POST"])
 def view():
     try:
         with open(PERSISTENCE_FILE) as cache:
@@ -48,3 +32,26 @@ def view():
             ]
             teams = []
     return render_template('base.html', teams=teams, players=players)
+
+
+@APP.route("/matchmake")
+def run_matchmaking():
+    with open(PLAYER_FILE) as player_file:
+        player_json = json.loads(player_file.read())
+        teams, players = matchmake(player_json['players'], 6)
+    with open(PERSISTENCE_FILE, "w") as outfile:
+        outfile.write(
+            json.dumps({
+                "teams": Team.bulk_to_json(teams),
+                "players": [player.to_json() for player in players]
+            }))
+    return redirect(url_for("view"))
+
+
+@APP.route("/reset")
+def reset_matchmaking():
+    try:
+        remove(PERSISTENCE_FILE)
+    except FileNotFoundError as e:
+        pass
+    return redirect(url_for("view"))
