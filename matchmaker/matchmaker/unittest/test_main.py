@@ -11,4 +11,7 @@ def test_matchmake():
         player_json = json.loads(player_file.read())
         teams, remainder = matchmake(player_json['players'], 6)
     assert teams[0].size == teams[-1].size
+    assert teams[0].average_shooting
+    assert teams[0].average_skating
+    assert teams[0].average_checking
     assert len(remainder) == 4

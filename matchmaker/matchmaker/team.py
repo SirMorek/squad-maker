@@ -4,7 +4,6 @@ Simple structures for tracking teams.
 Expected to have some basic ability to make it easy to add, remove and try out
 players while sorting out players.
 '''
-
 from matchmaker.player import HockeyPlayer
 
 
@@ -19,6 +18,27 @@ class Team(object):
     @property
     def size(self):
         return len(self.players)
+
+    @property
+    def average_shooting(self):
+        if not self.players:
+            return 0
+        return sum([player.shooting
+                    for player in self.players]) / len(self.players)
+
+    @property
+    def average_skating(self):
+        if not self.players:
+            return 0
+        return sum([player.skating
+                    for player in self.players]) / len(self.players)
+
+    @property
+    def average_checking(self):
+        if not self.players:
+            return 0
+        return sum([player.checking
+                    for player in self.players]) / len(self.players)
 
     def __repr__(self):
         return "Team {name}: {players}".format(
