@@ -39,11 +39,14 @@
     </style>
 
     <div style="text-align:center">
-      <a href="{{ url_for('run_matchmaking') }}">Generate Teams</a>
-      --
+      <form action="{{ url_for('run_matchmaking') }}">
+        Number of teams:
+        <input type="text" name="team_count", value=6>
+        <input type="submit" value="Generate Teams">
+      </form>
+      <br>
       <a href="{{ url_for('reset_matchmaking') }}">Reset Teams</a>
     </div>
-
     {# print a table of the free players #}
     <p>Reserve List:</p>
     {{ player_table(players) }}

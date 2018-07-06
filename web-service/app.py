@@ -1,7 +1,7 @@
 import json
 from os import path, remove
 
-from flask import Flask, render_template, redirect, url_for
+from flask import Flask, render_template, redirect, url_for, request
 
 from matchmaker.main import matchmake
 from matchmaker.team import Team
@@ -36,9 +36,11 @@ def view():
 
 @APP.route("/matchmake")
 def run_matchmaking():
+    team_count = int(request.args.get('team_count', 6))
+
     with open(PLAYER_FILE) as player_file:
         player_json = json.loads(player_file.read())
-        teams, players = matchmake(player_json['players'], 6)
+        teams, players = matchmake(player_json['players'], team_count)
     with open(PERSISTENCE_FILE, "w") as outfile:
         outfile.write(
             json.dumps({
