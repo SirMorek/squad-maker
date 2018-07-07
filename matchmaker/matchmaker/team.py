@@ -40,6 +40,17 @@ class Team(object):
         return sum([player.checking
                     for player in self.players]) / len(self.players)
 
+    @property
+    def average_total(self):
+        if not self.players:
+            return 0
+        return sum([
+            self.average_shooting, self.average_skating, self.average_checking
+        ])
+
+    def __lt__(self, other):
+        return self.average_total < other.average_total
+
     def __repr__(self):
         return "Team {name}: {players}".format(
             name=self.name, players=self.players)
