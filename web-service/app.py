@@ -1,7 +1,7 @@
 import json
 from os import path
 
-from flask import Flask
+from flask import Flask, render_template
 
 from matchmaker.main import matchmake
 from matchmaker.team import Team
@@ -25,7 +25,7 @@ def root():
                 "players": [player.to_json() for player in players]
             }))
 
-    return "Teams: %s, Free players: %s" % (teams, players)
+    return render_template('base.html', teams=teams, players=players)
 
 
 @APP.route("/teams", methods=["GET", "POST"])
@@ -47,5 +47,4 @@ def view():
                 for player_json in _player_json['players']
             ]
             teams = []
-    return "Teams: {teams}, Free players: {players},".format(
-        players=players, teams=teams)
+    return render_template('base.html', teams=teams, players=players)

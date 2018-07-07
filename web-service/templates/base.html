@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Squad Matchmaker</title>
+    <link href="{{ url_for('static', filename='style.css') }}" rel="stylesheet">
+  </head>
+  <body>
+    {# print a table of the free players #}
+    <p>Reserve List:</p>
+    {{ players }}
+    <hr>
+    {# if any, print teams #}
+    {% if teams %}
+    <p>Teams:</p>
+    {{ teams }}
+    <hr>
+    {% endif %}
+    {# button to reset service state #}
+    {# button to generate teams #}
+  </body>
+</html>
